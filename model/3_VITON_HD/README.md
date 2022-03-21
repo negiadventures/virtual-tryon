@@ -7,10 +7,12 @@ To test:
 1. update the person and cloth image pair in datasets/test_pairs.txt. NOTE: pick person image from datasets/test/image/ and cloth image from  datasets/test/cloth/
 2. for new person image, segmentation image should be present in image-parse and pose image should be present in datasets/test/openpose-img/ and pose body key should be present in datasets/test/openpose-json/
 3. for new cloth image, cloth-mask should be present in datasets/test/cloth-mask/
+
 NOTE: We are keeping the clothes collection as given for simplicity.
 
 Command to run:
 python3 test.py --name res
+
 The result person images with new clothes should appear in results/res/ directory
 
 
