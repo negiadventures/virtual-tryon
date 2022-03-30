@@ -1,4 +1,4 @@
-# Body Segmentation
+# Body Segmentation API
 
 Our Body segmentation model is based on Self-Correction-Human-Parsing:
 https://github.com/PeikeLi/Self-Correction-Human-Parsing
@@ -9,11 +9,46 @@ We are using LIP model. The weight file can be downloaded from: https://drive.go
 
 NOTE: Rename the file to final.pth and place it under checkpoints/ directory
 
-How to Run:
-1. make sure the weight file of the model is added in checkpoints directory
-2. place the image inside inputs/ directory
-3. Run the command:
-python3 simple_extractor.py --dataset 'lip' --model-restore 'checkpoints/final.pth' --input-dir 'inputs' --output-dir 'outputs'
+## Steps to run segmentation API on local
 
-The result - segmentation image will be created under output/ dir.
+1. enable Hyper-V on your machine and restart
+
+2. Install docker on your machine
+
+3. Build custom docker image from "nvidia/cuda:11.6.0-devel-ubuntu20.04" base image
+
+docker build -t segmentation:latest .
+
+4. Run a docker container which runs the flask app for segmentation API
+
+docker run -it --rm -p 127.0.0.1:8180:8888 --gpus all segmentation
+
+5. now use the POST api
+
+127.0.0.1:8180
+
+Body:
+{
+
+ "data" : [#img_numpy_array_to_list]
+
+}
+
+Response:
+
+[#segmented_img_numpy_array_to_list]
+
+This is a numpy array of segmented image which can be stored/viewed or used further in different models as required.
+
+# Test Script
+
+Run the following command to run a test script that opens a camera, and segments each frame.
+
+python script.py
+
+### Extras:
+#### Command to run an example script from the container
+python simple_extractor.py --dataset 'lip' --model-restore 'checkpoints/final.pth' --input-dir 'inputs' --output-dir 'outputs'
+
+
 
